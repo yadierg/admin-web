@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, catchError, throwError } from 'rxjs';
+import { Observable, tap, catchError, throwError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthStore } from './auth.store';
 import { RefreshService } from './refresh.service';
@@ -31,11 +31,12 @@ export class AuthService {
 
   logout(): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/logout`, {}).pipe(
-      catchError(() => throwError(() => null)),
-      tap({
-        next: () => this.cleanupAndRedirect(),
-        error: () => this.cleanupAndRedirect(),
-      })
+      catchError((err) => {
+        // Aunque el backend falle, limpiamos localmente
+        console.warn('Logout backend failed, cleaning local state anyway', err);
+        return of(void 0);
+      }),
+      tap(() => this.cleanupAndRedirect()),
     );
   }
 
@@ -58,7 +59,7 @@ export class AuthService {
   }
 
   private cleanupAndRedirect(): void {
-    this.store.clear();
+    this.store.clear();   // ← limpia localStorage + signals
     this.router.navigateByUrl('/login');
   }
 }

@@ -7,7 +7,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const token = store.accessToken();
 
   const isAuthEndpoint =
-    req.url.includes('/auth/login') || req.url.includes('/auth/refresh');
+    req.url.includes('/auth/login') || req.url.includes('/auth/refresh') || req.url.includes('/auth/logout');
 
   if (!token || isAuthEndpoint) return next(req);
 

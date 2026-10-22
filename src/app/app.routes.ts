@@ -26,6 +26,13 @@ export const routes: Routes = [
             (m) => m.DashboardComponent
           ),
       },
+      {
+        path: 'users',
+        canActivate: [permissionGuard],
+        data: { permission: 'users.read' },
+        loadChildren: () =>
+          import('./features/users/users.routes').then((m) => m.USERS_ROUTES),
+      },
     ],
   },
   {
