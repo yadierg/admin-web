@@ -1,12 +1,17 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AuthStore } from './core/auth/auth.store';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  template: `<router-outlet />`,
 })
-export class App {
-  protected readonly title = signal('admin-web');
+export class App implements OnInit {
+  private readonly store = inject(AuthStore);
+
+  ngOnInit(): void {
+    this.store.hydrateFromStorage();
+  }
 }

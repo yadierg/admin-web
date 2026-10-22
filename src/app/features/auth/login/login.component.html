@@ -1,0 +1,58 @@
+<div class="min-h-screen flex items-center justify-center bg-slate-100 p-4">
+  <mat-card class="w-full max-w-md p-2">
+    <mat-card-header class="flex flex-col items-center pt-4">
+      <mat-card-title class="text-2xl font-semibold">Instelec Admin</mat-card-title>
+      <mat-card-subtitle>Inicia sesión para continuar</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content class="pt-6">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" autocomplete="email" />
+          @if (form.controls.email.touched && form.controls.email.invalid) {
+            <mat-error>Email inválido</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            [type]="hidePassword() ? 'password' : 'text'"
+            formControlName="password"
+            autocomplete="current-password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="hidePassword.set(!hidePassword())"
+          >
+            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          @if (form.controls.password.touched && form.controls.password.invalid) {
+            <mat-error>Contraseña requerida (mín. 6)</mat-error>
+          }
+        </mat-form-field>
+
+        @if (error()) {
+          <div class="text-red-600 text-sm">{{ error() }}</div>
+        }
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="form.invalid || loading()"
+          class="h-11"
+        >
+          @if (loading()) {
+            <mat-spinner diameter="20" class="inline-block mr-2"></mat-spinner>
+          }
+          Iniciar sesión
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
