@@ -47,6 +47,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/settings/settings.routes').then((m) => m.SETTINGS_ROUTES),
       },
+      {
+        path: 'audit',
+        canActivate: [permissionGuard],
+        data: { permission: 'audit.read' },
+        loadChildren: () =>
+          import('./features/audit/audit.routes').then((m) => m.AUDIT_ROUTES),
+      },
     ],
   },
   {
