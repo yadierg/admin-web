@@ -39,7 +39,7 @@ export class RolesService {
   }
 
   assignPermissions(id: string, payload: AssignPermissionsDto): Observable<Role> {
-    return this.http.post<Role>(`${this.baseUrl}/${id}/permissions`, payload);
+    return this.http.patch<Role>(`${this.baseUrl}/${id}/permissions`, payload);
   }
 
   getGroupedPermissions(): Observable<GroupedPermissions> {
