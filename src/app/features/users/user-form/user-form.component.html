@@ -52,15 +52,7 @@
             }
           </mat-form-field>
 
-          @if (isEdit()) {
-            <mat-form-field appearance="outline" class="md:col-span-2">
-              <mat-label>Estado</mat-label>
-              <mat-select formControlName="isActive">
-                <mat-option [value]="true">Activo</mat-option>
-                <mat-option [value]="false">Inactivo</mat-option>
-              </mat-select>
-            </mat-form-field>
-          }
+          
         </div>
 
         <div class="flex items-center justify-end gap-2 mt-2">

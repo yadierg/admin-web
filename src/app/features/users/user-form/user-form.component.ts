@@ -73,7 +73,7 @@ export class UserFormComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     role: ['', [Validators.required]],
     password: [''], // solo en crear
-    isActive: [true],
+    //isActive: [true],
   });
 
   ngOnInit(): void {
@@ -96,7 +96,11 @@ export class UserFormComponent implements OnInit {
     this.http
       .get<RoleOption[]>(`${environment.apiUrl}/roles`)
       .subscribe({
-        next: (roles) => this.roles.set(roles),
+        next: (roles) => {
+          // El backend solo acepta 'admin' y 'user' para PATCH
+          const ASSIGNABLE = ['admin', 'user'];
+          this.roles.set(roles.filter((r) => ASSIGNABLE.includes(r.name)));
+        },
         error: () => {
           this.snack.open('Error al cargar roles', 'Cerrar', { duration: 3000 });
         },
@@ -111,8 +115,12 @@ export class UserFormComponent implements OnInit {
           name: user.name,
           email: user.email,
           role: user.role,
-          isActive: user.isActive,
         });
+
+        if (user.role === 'super_admin' || user.isSuperAdmin) {
+          this.form.controls.role.disable();
+        }
+
         this.loading.set(false);
       },
       error: () => {
@@ -129,12 +137,15 @@ export class UserFormComponent implements OnInit {
     const value = this.form.getRawValue();
 
     if (this.isEdit() && this.userId()) {
-      const payload = {
+      const payload: { name: string; email: string; role?: string } = {
         name: value.name,
         email: value.email,
-        role: value.role,
-        isActive: value.isActive,
       };
+
+      if (!this.form.controls.role.disabled) {
+        payload.role = value.role;
+      }
+
       this.usersService.update(this.userId()!, payload).subscribe({
         next: () => {
           this.saving.set(false);
@@ -144,7 +155,7 @@ export class UserFormComponent implements OnInit {
         error: (err) => {
           this.saving.set(false);
           this.snack.open(
-            err?.error?.message ?? 'Error al actualizar',
+            err?.error?.message?.[0] ?? err?.error?.message ?? 'Error al actualizar',
             'Cerrar',
             { duration: 3500 }
           );
@@ -166,7 +177,7 @@ export class UserFormComponent implements OnInit {
         error: (err) => {
           this.saving.set(false);
           this.snack.open(
-            err?.error?.message ?? 'Error al crear usuario',
+            err?.error?.message?.[0] ?? err?.error?.message ?? 'Error al crear usuario',
             'Cerrar',
             { duration: 3500 }
           );
