@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  admin-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: admin-web
+    restart: unless-stopped
+    ports:
+      - "8080:80"   # Cambia si ya tienes otro servicio en 8080
+    networks:
+      - instelec-net
+    labels:
+      - "traefik.enable=false"
+
+networks:
+  instelec-net:
+    external: true
+    name: ecommerce_default   # Ajusta al nombre de la red del backend
