@@ -23,6 +23,7 @@
   </button>
 
   <mat-menu #userMenu="matMenu" xPosition="before">
+    <app-notifications-bell />
     <button mat-menu-item disabled>
       <span class="text-xs text-slate-500">{{ userEmail() }}</span>
     </button>

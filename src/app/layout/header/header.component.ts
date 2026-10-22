@@ -6,6 +6,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthStore } from '../../core/auth/auth.store';
 import { AuthService } from '../../core/auth/auth.service';
+import { NotificationsBellComponent } from '../../shared/notifications-bell/notifications-bell.component';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ import { AuthService } from '../../core/auth/auth.service';
     MatButtonModule,
     MatMenuModule,
     MatDividerModule,
+    NotificationsBellComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',

@@ -54,6 +54,15 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/audit/audit.routes').then((m) => m.AUDIT_ROUTES),
       },
+      {
+        path: 'notifications',
+        canActivate: [permissionGuard],
+        data: { permission: 'notifications.read' },
+        loadChildren: () =>
+          import('./features/notifications/notifications.routes').then(
+            (m) => m.NOTIFICATIONS_ROUTES
+          ),
+      },
     ],
   },
   {
