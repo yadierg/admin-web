@@ -1,0 +1,51 @@
+<div class="max-w-3xl mx-auto flex flex-col gap-6">
+  <div class="flex items-center gap-2">
+    <button mat-icon-button routerLink="/roles" matTooltip="Volver">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2 class="text-2xl font-semibold text-slate-800">{{ title() }}</h2>
+  </div>
+
+  @if (loading()) {
+    <div class="flex justify-center p-12">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <mat-card class="!p-6">
+      <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre del rol</mat-label>
+          <input matInput formControlName="name" placeholder="ej. editor" />
+          @if (form.controls.name.touched && form.controls.name.invalid) {
+            <mat-error>Nombre requerido (mín. 2)</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            rows="3"
+            placeholder="Describe el propósito de este rol..."
+          ></textarea>
+        </mat-form-field>
+
+        <div class="flex items-center justify-end gap-2 mt-2">
+          <button mat-button type="button" routerLink="/roles">Cancelar</button>
+          <button
+            mat-flat-button
+            color="primary"
+            type="submit"
+            [disabled]="form.invalid || saving()"
+          >
+            @if (saving()) {
+              <mat-spinner diameter="18" class="inline-block mr-2"></mat-spinner>
+            }
+            {{ isEdit() ? 'Guardar cambios' : 'Crear rol' }}
+          </button>
+        </div>
+      </form>
+    </mat-card>
+  }
+</div>

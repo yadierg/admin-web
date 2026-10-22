@@ -1,17 +1,34 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+cd ~/Documentos/Proyectos/admin-web
 
-# Compiled output
+cat > .gitignore <<'EOF'
+# ─────────────────────────────────────────────
+# Angular / Build
+# ─────────────────────────────────────────────
 /dist
 /tmp
 /out-tsc
 /bazel-out
+/.angular/cache
 
+# ─────────────────────────────────────────────
 # Node
+# ─────────────────────────────────────────────
 /node_modules
 npm-debug.log
 yarn-error.log
+.pnpm-debug.log*
 
+# ─────────────────────────────────────────────
+# Jest / Coverage
+# ─────────────────────────────────────────────
+/coverage
+/junit
+*.lcov
+__screenshots__/
+
+# ─────────────────────────────────────────────
 # IDEs and editors
+# ─────────────────────────────────────────────
 .idea/
 .project
 .classpath
@@ -19,6 +36,10 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+*.iml
+*.swp
+*.swo
+*~
 
 # Visual Studio Code
 .vscode/*
@@ -28,16 +49,36 @@ yarn-error.log
 !.vscode/extensions.json
 .history/*
 
-# Miscellaneous
-/.angular/cache
+# ─────────────────────────────────────────────
+# Misc
+# ─────────────────────────────────────────────
 .sass-cache/
 /connect.lock
-/coverage
 /libpeerconnection.log
 testem.log
 /typings
-__screenshots__/
 
+# ─────────────────────────────────────────────
 # System files
+# ─────────────────────────────────────────────
 .DS_Store
 Thumbs.db
+
+# ─────────────────────────────────────────────
+# Env / secrets (locales)
+# ─────────────────────────────────────────────
+# environment.ts y environment.prod.ts SÍ se commitean
+# (solo contienen apiUrl y tenantId, que es público)
+/src/environments/environment.local.ts
+.env
+.env.*
+!.env.example
+
+# ─────────────────────────────────────────────
+# Logs y temporales
+# ─────────────────────────────────────────────
+*.log
+.cache
+*.sh
+temp/
+EOF

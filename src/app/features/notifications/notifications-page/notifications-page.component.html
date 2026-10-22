@@ -1,0 +1,112 @@
+<div class="flex flex-col gap-4">
+  <!-- Header -->
+  <div class="flex items-center justify-between flex-wrap gap-2">
+    <div>
+      <h2 class="text-2xl font-semibold text-slate-800">Notificaciones</h2>
+      <p class="text-slate-500 text-sm mt-1">
+        {{ total() }} en total · {{ unreadCount() }} sin leer
+      </p>
+    </div>
+    @if (hasUnread()) {
+      <button mat-stroked-button color="primary" (click)="markAllAsRead()">
+        <mat-icon>done_all</mat-icon>
+        Marcar todas como leídas
+      </button>
+    }
+  </div>
+
+  <!-- Filtros -->
+  <mat-button-toggle-group
+    [value]="filter()"
+    (change)="onFilterChange($event.value)"
+    hideSingleSelectionIndicator
+  >
+    <mat-button-toggle value="all">Todas</mat-button-toggle>
+    <mat-button-toggle value="unread">
+      No leídas ({{ unreadCount() }})
+    </mat-button-toggle>
+    <mat-button-toggle value="read">Leídas</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <!-- Lista -->
+  @if (loading()) {
+    <div class="flex justify-center p-12">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (items().length === 0) {
+    <mat-card class="!p-12 text-center">
+      <mat-icon class="!w-16 !h-16 !text-6xl text-slate-300 mb-2">
+        notifications_off
+      </mat-icon>
+      <p class="text-slate-500">No hay notificaciones.</p>
+    </mat-card>
+  } @else {
+    <div class="flex flex-col gap-2">
+      @for (n of items(); track n.id) {
+        <mat-card
+          class="!p-4 cursor-pointer hover:shadow-md transition-shadow"
+          [class.!bg-blue-50]="!n.isRead"
+          (click)="onNotificationClick(n)"
+        >
+          <div class="flex items-start gap-3">
+            <div
+              class="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
+              [class]="colorFor(n.type)"
+            >
+              <mat-icon>{{ iconFor(n.type) }}</mat-icon>
+            </div>
+
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="font-medium text-slate-800">{{ n.title }}</span>
+                @if (!n.isRead) {
+                  <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                }
+                @if (n.priority !== 'normal') {
+                  <span
+                    class="text-[10px] px-1.5 py-0.5 rounded font-medium uppercase"
+                    [class]="priorityBadge(n.priority)"
+                  >
+                    {{ n.priority }}
+                  </span>
+                }
+              </div>
+              <p class="text-sm text-slate-600 mt-1">{{ n.message }}</p>
+              <p class="text-xs text-slate-400 mt-1">
+                {{ relativeDate(n.createdAt) }}
+              </p>
+            </div>
+
+            <div class="flex items-center gap-1 shrink-0">
+              @if (!n.isRead) {
+                <button
+                  mat-icon-button
+                  matTooltip="Marcar como leída"
+                  (click)="onMarkRead(n, $event)"
+                >
+                  <mat-icon>mark_email_read</mat-icon>
+                </button>
+              }
+              <button
+                mat-icon-button
+                color="warn"
+                matTooltip="Eliminar"
+                (click)="onDelete(n, $event)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+        </mat-card>
+      }
+    </div>
+
+    <mat-paginator
+      [length]="total()"
+      [pageSize]="limit()"
+      [pageSizeOptions]="[10, 20, 50]"
+      (page)="onPageChange($event)"
+      showFirstLastButtons
+    ></mat-paginator>
+  }
+</div>

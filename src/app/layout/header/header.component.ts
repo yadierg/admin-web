@@ -1,0 +1,50 @@
+import { Component, computed, inject, output } from '@angular/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { AuthStore } from '../../core/auth/auth.store';
+import { AuthService } from '../../core/auth/auth.service';
+import { NotificationsBellComponent } from '../../shared/notifications-bell/notifications-bell.component';
+
+@Component({
+  selector: 'app-header',
+  standalone: true,
+  imports: [
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
+    MatMenuModule,
+    MatDividerModule,
+    NotificationsBellComponent,
+  ],
+  templateUrl: './header.component.html',
+  styleUrl: './header.component.scss',
+})
+export class HeaderComponent {
+  private readonly store = inject(AuthStore);
+  private readonly auth = inject(AuthService);
+
+  /** Emite cuando el usuario pulsa el botón hamburguesa */
+  readonly toggleSidenav = output<void>();
+
+  readonly userName = computed(() => this.store.user()?.name ?? 'Usuario');
+  readonly userEmail = computed(() => this.store.user()?.email ?? '');
+  readonly initials = computed(() => {
+    const name = this.store.user()?.name ?? 'U';
+    return name
+      .split(' ')
+      .slice(0, 2)
+      .map((p) => p[0]?.toUpperCase() ?? '')
+      .join('');
+  });
+
+  onToggleSidenav(): void {
+    this.toggleSidenav.emit();
+  }
+
+  logout(): void {
+    this.auth.logout().subscribe();
+  }
+}
