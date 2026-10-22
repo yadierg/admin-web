@@ -40,6 +40,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/roles/roles.routes').then((m) => m.ROLES_ROUTES),
       },
+      {
+        path: 'settings',
+        canActivate: [permissionGuard],
+        data: { permission: 'settings.read' },
+        loadChildren: () =>
+          import('./features/settings/settings.routes').then((m) => m.SETTINGS_ROUTES),
+      },
     ],
   },
   {

@@ -1,0 +1,129 @@
+<div class="flex flex-col gap-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h2 class="text-2xl font-semibold text-slate-800">Configuración</h2>
+      <p class="text-slate-500 text-sm mt-1">
+        Settings del tenant. Los "read-only" son de sistema.
+      </p>
+    </div>
+    @if (canCreate) {
+      <button mat-flat-button color="primary" (click)="openCreateDialog()">
+        <mat-icon>add</mat-icon>
+        Nuevo setting
+      </button>
+    }
+  </div>
+
+  <mat-form-field appearance="outline" class="w-full max-w-md">
+    <mat-label>Buscar</mat-label>
+    <mat-icon matPrefix>search</mat-icon>
+    <input
+      matInput
+      [value]="searchQuery()"
+      (input)="onSearchChange($event)"
+      placeholder="Clave, valor o descripción..."
+    />
+  </mat-form-field>
+
+  @if (loading()) {
+    <div class="flex justify-center p-12">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else if (totalVisible() === 0) {
+    <mat-card class="!p-8 text-center">
+      <p class="text-slate-500">No se encontraron settings.</p>
+    </mat-card>
+  } @else {
+    <div class="text-sm text-slate-500">
+      {{ totalVisible() }} settings en {{ groups().length }} grupos
+    </div>
+
+    <div class="flex flex-col gap-3">
+      @for (group of groups(); track group) {
+        <mat-expansion-panel [expanded]="true" class="!shadow-none border border-slate-200">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="flex items-center gap-2">
+              <mat-icon class="text-blue-600">folder</mat-icon>
+              <span class="font-semibold capitalize">{{ group }}</span>
+              <span class="text-xs text-slate-500">
+                ({{ grouped()[group].length }})
+              </span>
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 py-2">
+            @for (s of grouped()[group]; track s.id) {
+              <div class="border border-slate-200 rounded-lg p-3 hover:border-blue-300 transition-colors">
+                <div class="flex items-start justify-between gap-2 mb-2">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <mat-icon
+                      class="!text-base !w-4 !h-4 text-slate-400 shrink-0"
+                      [matTooltip]="'Tipo: ' + s.type"
+                    >
+                      {{ iconForType(s.type) }}
+                    </mat-icon>
+                    <span class="font-mono text-sm font-medium text-slate-800 truncate">
+                      {{ s.key }}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-1 shrink-0">
+                    @if (s.isPublic) {
+                      <span
+                        class="text-[10px] px-1.5 py-0.5 rounded bg-green-100 text-green-700 font-medium"
+                        matTooltip="Visible en la tienda pública"
+                      >
+                        PÚBLICO
+                      </span>
+                    }
+                    @if (!s.isEditable) {
+                      <span
+                        class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium"
+                        matTooltip="Solo lectura"
+                      >
+                        READ-ONLY
+                      </span>
+                    }
+                  </div>
+                </div>
+
+                <div class="bg-slate-50 rounded p-2 font-mono text-sm text-slate-800 break-all">
+                  {{ formatValue(s) }}
+                </div>
+
+                @if (s.description) {
+                  <p class="text-xs text-slate-500 mt-2">{{ s.description }}</p>
+                }
+
+                @if (s.isEditable && (canUpdate || canDelete)) {
+                  <div class="flex justify-end gap-1 mt-2 -mb-1">
+                    @if (canUpdate) {
+                      <button
+                        mat-icon-button
+                        matTooltip="Editar"
+                        (click)="openEditDialog(s)"
+                        class="!w-8 !h-8"
+                      >
+                        <mat-icon class="!text-base">edit</mat-icon>
+                      </button>
+                    }
+                    @if (canDelete) {
+                      <button
+                        mat-icon-button
+                        color="warn"
+                        matTooltip="Eliminar"
+                        (click)="onDelete(s)"
+                        class="!w-8 !h-8"
+                      >
+                        <mat-icon class="!text-base">delete</mat-icon>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </mat-expansion-panel>
+      }
+    </div>
+  }
+</div>

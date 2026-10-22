@@ -1,0 +1,94 @@
+<h2 mat-dialog-title>
+  {{ isEdit() ? 'Editar setting' : 'Nuevo setting' }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="flex flex-col gap-3 pt-2">
+    <!-- Key -->
+    <mat-form-field appearance="outline">
+      <mat-label>Key</mat-label>
+      <input
+        matInput
+        formControlName="key"
+        placeholder="ej. site_name"
+        class="font-mono"
+      />
+      @if (!isEdit()) {
+        <mat-hint>Solo letras minúsculas, números y guión bajo</mat-hint>
+      } @else {
+        <mat-hint>La key no se puede modificar</mat-hint>
+      }
+      @if (form.controls.key.touched && form.controls.key.invalid) {
+        <mat-error>Key inválida (solo [a-z0-9_])</mat-error>
+      }
+    </mat-form-field>
+
+    <!-- Grupo + Tipo -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Grupo</mat-label>
+        <mat-select formControlName="group">
+          @for (g of availableGroups; track g) {
+            <mat-option [value]="g">{{ g }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="type">
+          @for (t of availableTypes; track t) {
+            <mat-option [value]="t">{{ t }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Valor -->
+    <mat-form-field appearance="outline">
+      <mat-label>Valor</mat-label>
+      <textarea
+        matInput
+        formControlName="value"
+        rows="2"
+        class="font-mono"
+        [placeholder]="valuePlaceholder"
+      ></textarea>
+      @if (isJsonType) {
+        <mat-hint>Debe ser JSON válido</mat-hint>
+      }
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción (opcional)</mat-label>
+      <input matInput formControlName="description" />
+    </mat-form-field>
+
+    <!-- Checkboxes -->
+    <div class="flex flex-col gap-2 py-2">
+      <mat-checkbox formControlName="isPublic">
+        Público (visible en la tienda)
+      </mat-checkbox>
+      <mat-checkbox formControlName="isEditable">
+        Editable (se puede modificar desde el admin)
+      </mat-checkbox>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    (click)="submit()"
+    [disabled]="form.invalid || saving()"
+  >
+    @if (saving()) {
+      <mat-spinner diameter="18" class="inline-block mr-2"></mat-spinner>
+    }
+    {{ isEdit() ? 'Guardar cambios' : 'Crear setting' }}
+  </button>
+</mat-dialog-actions>
