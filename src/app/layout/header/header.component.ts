@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, output } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,6 +24,9 @@ export class HeaderComponent {
   private readonly store = inject(AuthStore);
   private readonly auth = inject(AuthService);
 
+  /** Emite cuando el usuario pulsa el botón hamburguesa */
+  readonly toggleSidenav = output<void>();
+
   readonly userName = computed(() => this.store.user()?.name ?? 'Usuario');
   readonly userEmail = computed(() => this.store.user()?.email ?? '');
   readonly initials = computed(() => {
@@ -34,6 +37,10 @@ export class HeaderComponent {
       .map((p) => p[0]?.toUpperCase() ?? '')
       .join('');
   });
+
+  onToggleSidenav(): void {
+    this.toggleSidenav.emit();
+  }
 
   logout(): void {
     this.auth.logout().subscribe();
