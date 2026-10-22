@@ -1,0 +1,94 @@
+<div class="max-w-5xl mx-auto flex flex-col gap-6">
+  <div class="flex items-center gap-2">
+    <button
+      mat-icon-button
+      (click)="cancel()"
+      matTooltip="Volver"
+    >
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h2 class="text-2xl font-semibold text-slate-800">
+      Asignar permisos
+      @if (role(); as r) {
+        <span class="text-slate-500 font-normal">— {{ r.name }}</span>
+      }
+    </h2>
+  </div>
+
+  @if (loading()) {
+    <div class="flex justify-center p-12">
+      <mat-spinner diameter="40"></mat-spinner>
+    </div>
+  } @else {
+    <mat-card class="!p-6 flex flex-col gap-4">
+      <div class="flex items-center gap-4 flex-wrap">
+        <mat-form-field appearance="outline" class="flex-1 min-w-[200px] !mb-0">
+          <mat-label>Buscar permiso</mat-label>
+          <mat-icon matPrefix>search</mat-icon>
+          <input
+            matInput
+            [value]="searchQuery()"
+            (input)="onSearchChange($event)"
+            placeholder="users.create, orders..."
+          />
+        </mat-form-field>
+        <div class="text-sm text-slate-600">
+          <span class="font-semibold text-slate-800">{{ selectedCount() }}</span>
+          / {{ totalPermissions() }} seleccionados
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        @for (resource of filteredResources(); track resource) {
+          <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="flex items-center gap-2">
+                <mat-checkbox
+                  [checked]="groupState(resource) === 'all'"
+                  [indeterminate]="groupState(resource) === 'indeterminate'"
+                  (change)="toggleGroup(resource, $event.checked)"
+                  (click)="$event.stopPropagation()"
+                ></mat-checkbox>
+                <span class="font-semibold capitalize">{{ resource }}</span>
+                <span class="text-xs text-slate-500">
+                  ({{ filteredGrouped()[resource].length }})
+                </span>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 py-2">
+              @for (p of filteredGrouped()[resource]; track p.id) {
+                <mat-checkbox
+                  [checked]="isSelected(p.id)"
+                  (change)="togglePermission(p.id, $event.checked)"
+                  class="block"
+                >
+                  <span class="font-mono text-sm">{{ p.name }}</span>
+                </mat-checkbox>
+              }
+            </div>
+          </mat-expansion-panel>
+        } @empty {
+          <p class="text-slate-500 text-sm text-center py-4">
+            No se encontraron permisos con "{{ searchQuery() }}"
+          </p>
+        }
+      </div>
+
+      <div class="flex items-center justify-end gap-2 mt-2 pt-4 border-t border-slate-200">
+        <button mat-button type="button" (click)="cancel()">Cancelar</button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="save()"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            <mat-spinner diameter="18" class="inline-block mr-2"></mat-spinner>
+          }
+          Guardar permisos
+        </button>
+      </div>
+    </mat-card>
+  }
+</div>
