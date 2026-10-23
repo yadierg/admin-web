@@ -1,16 +1,16 @@
-<div class="flex flex-col h-screen">
+<div class="flex flex-col h-screen bg-surface dark:bg-surface-dark">
   <app-header (toggleSidenav)="toggleSidenav()" />
 
-  <mat-sidenav-container class="flex-1 !bg-slate-100">
+  <mat-sidenav-container class="flex-1 !bg-transparent">
     <mat-sidenav
       [opened]="sidenavOpened()"
       [mode]="sidenavMode()"
-      class="w-64 !bg-slate-900"
+      class="w-64 !bg-sidebar-bg"
     >
       <app-sidebar (itemClicked)="onSidebarItemClicked()" />
     </mat-sidenav>
 
-    <mat-sidenav-content class="!p-0">
+    <mat-sidenav-content class="!p-0 !bg-transparent">
       <div class="p-6">
         <router-outlet />
       </div>

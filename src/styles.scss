@@ -1,17 +1,130 @@
 @use '@angular/material' as mat;
+@import '@fontsource/inter/300.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
 @include mat.core();
 
+// ─── Light theme ───
 html {
   @include mat.theme((
-    color: (primary: mat.$azure-palette, tertiary: mat.$blue-palette),
-    typography: Roboto,
+    color: (
+      primary: (
+        0: #000000,
+        10: #3d0009,
+        20: #690016,
+        30: #8e0624,
+        40: #a30d26,
+        50: #c8102e,
+        60: #d4145a,
+        70: #e86686,
+        80: #f39cb0,
+        90: #fce4e9,
+        95: #fef2f4,
+        99: #ffffff,
+        100: #ffffff,
+      ),
+      tertiary: mat.$red-palette,
+    ),
+    typography: 'Inter',
     density: 0,
   ));
+}
+
+// ─── Dark theme ───
+html.dark {
+  @include mat.theme((
+    color: (
+      primary: (
+        0: #000000,
+        10: #3d0009,
+        20: #690016,
+        30: #8e0624,
+        40: #a30d26,
+        50: #c8102e,
+        60: #d4145a,
+        70: #e86686,
+        80: #f39cb0,
+        90: #fce4e9,
+        95: #fef2f4,
+        99: #ffffff,
+        100: #ffffff,
+      ),
+      tertiary: mat.$red-palette,
+    ),
+    typography: 'Inter',
+    density: 0,
+  ));
+  color-scheme: dark;
 }
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// ─── Base ───
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+  background-color: #f5f7fa;
+  color: #1e293b;
+}
+
+html.dark body {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
+// ─── Transiciones globales ───
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 150ms;
+}
+
+// ─── Scrollbar fina ───
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+html.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+// ─── Material overrides ───
+.mat-mdc-card {
+  border-radius: 8px !important;
+}
+
+// ─── Utilidades ───
+.card-shadow {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+}
+.card-shadow-hover:hover {
+  box-shadow: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.05);
+}
+
+// ─── Dark mode util ───
+html.dark {
+  .bg-white { background-color: #1e293b !important; }
+  .bg-slate-50 { background-color: #334155 !important; }
+  .bg-slate-100 { background-color: #1e293b !important; }
+  .text-slate-800 { color: #f1f5f9 !important; }
+  .text-slate-700 { color: #e2e8f0 !important; }
+  .text-slate-600 { color: #cbd5e1 !important; }
+  .text-slate-500 { color: #94a3b8 !important; }
+  .border-slate-200 { border-color: #334155 !important; }
+  .border-slate-100 { border-color: #334155 !important; }
+}
