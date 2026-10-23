@@ -13,6 +13,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
 
 import { UsersService } from '../users.service';
 import { AdminUser } from '../models/user.model';
@@ -40,6 +41,7 @@ import {
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    MatSelectModule,
   ],
   templateUrl: './users-list.component.html',
   styleUrl: './users-list.component.scss',
@@ -70,6 +72,8 @@ export class UsersListComponent implements AfterViewInit {
   readonly canDelete = this.store.hasPermission('users.delete');
   readonly currentUserId = this.store.user()?.id;
 
+  readonly assignableRoles = ['admin', 'user'];
+
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -94,6 +98,34 @@ export class UsersListComponent implements AfterViewInit {
     const value = (event.target as HTMLInputElement).value;
     this.dataSource.filter = value.trim().toLowerCase();
     if (this.dataSource.paginator) this.dataSource.paginator.firstPage();
+  }
+
+  onRoleChange(user: AdminUser, newRole: string): void {
+    if (newRole === user.role) return;
+    const data: ConfirmDialogData = {
+      title: 'Cambiar rol',
+      message: `¿Cambiar el rol de ${user.name} de "${user.role}" a "${newRole}"?`,
+      confirmLabel: 'Cambiar',
+    };
+    this.dialog
+      .open(ConfirmDialogComponent, { data, width: '420px' })
+      .afterClosed()
+      .subscribe((confirmed) => {
+        if (!confirmed) return;
+        this.usersService.changeRole(user.id, newRole).subscribe({
+          next: () => {
+            this.snack.open('Rol actualizado', 'Cerrar', { duration: 2500 });
+            this.loadUsers();
+          },
+          error: (err) => {
+            this.snack.open(
+              err?.error?.message ?? 'Error al cambiar rol',
+              'Cerrar',
+              { duration: 3500 }
+            );
+          },
+        });
+      });
   }
 
   onToggleActive(user: AdminUser): void {
@@ -152,5 +184,13 @@ export class UsersListComponent implements AfterViewInit {
 
   goToNew(): void {
     this.router.navigateByUrl('/users/new');
+  }
+
+  canEditRole(user: AdminUser): boolean {
+    return (
+      this.canUpdate &&
+      user.id !== this.currentUserId &&
+      !user.isSuperAdmin
+    );
   }
 }

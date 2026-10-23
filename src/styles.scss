@@ -128,3 +128,51 @@ html.dark {
   .border-slate-200 { border-color: #334155 !important; }
   .border-slate-100 { border-color: #334155 !important; }
 }
+
+/* ─── Material overlay (dark mode) ─── */
+.mat-mdc-dialog-container,
+.mat-mdc-dialog-surface {
+  border-radius: 8px !important;
+  background: #ffffff !important;
+}
+
+html.dark .mat-mdc-dialog-container,
+html.dark .mat-mdc-dialog-surface {
+  background: #1e293b !important;
+}
+
+.mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: #ffffff !important;
+  border-radius: 8px !important;
+}
+
+html.dark .mat-mdc-dialog-container .mdc-dialog__surface {
+  background-color: #1e293b !important;
+}
+
+/* ─── Overlay backdrop ─── */
+.mat-mdc-dialog-container .mdc-dialog__container {
+  background: transparent !important;
+}
+
+.cdk-overlay-dark-backdrop {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* ─── Menús y selects ─── */
+.mat-mdc-menu-panel,
+.mat-mdc-select-panel {
+  background: #ffffff !important;
+}
+
+html.dark .mat-mdc-menu-panel,
+html.dark .mat-mdc-select-panel {
+  background: #1e293b !important;
+}
+
+/* ─── Snackbar ─── */
+.mat-mdc-snack-bar-container {
+  background: #1e293b !important;
+  color: #f1f5f9 !important;
+  border-radius: 8px !important;
+}

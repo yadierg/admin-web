@@ -1,0 +1,13 @@
+:host {
+  display: block;
+}
+
+// Forzar el fondo en el contenedor del dialog
+::ng-deep .mat-mdc-dialog-surface {
+  background: #ffffff !important;
+  border-radius: 8px !important;
+}
+
+:host-context(.dark) ::ng-deep .mat-mdc-dialog-surface {
+  background: #1e293b !important;
+}

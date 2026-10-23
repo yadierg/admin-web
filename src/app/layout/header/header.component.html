@@ -11,7 +11,6 @@
   <span class="font-medium">Admin</span>
   <span class="flex-1"></span>
 
-  <!-- Dark mode toggle -->
   <button
     mat-icon-button
     (click)="toggleTheme()"
@@ -28,7 +27,7 @@
     </div>
     <div class="text-left leading-tight hidden sm:block">
       <div class="text-sm font-medium">{{ userName() }}</div>
-      <div class="text-xs text-slate-500">{{ userRole() }}</div>
+      <div class="text-xs text-slate-500 dark:text-slate-400">{{ userRole() }}</div>
     </div>
   </button>
 
@@ -37,6 +36,10 @@
       <span class="text-xs text-slate-500">{{ userEmail() }}</span>
     </button>
     <mat-divider></mat-divider>
+    <button mat-menu-item (click)="openChangePassword()">
+      <mat-icon>lock</mat-icon>
+      <span>Cambiar contraseña</span>
+    </button>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="logout()">
       <mat-icon>logout</mat-icon>
