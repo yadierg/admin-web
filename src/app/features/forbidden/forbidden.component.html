@@ -1,0 +1,23 @@
+<div class="min-h-screen flex flex-col items-center justify-center bg-surface dark:bg-surface-dark p-4">
+  <div class="w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center mb-6">
+    <mat-icon class="!w-12 !h-12 !text-5xl text-red-600 dark:text-red-400">
+      block
+    </mat-icon>
+  </div>
+  <h1 class="text-3xl font-bold text-slate-800 dark:text-slate-100 mb-2">
+    403 — Acceso denegado
+  </h1>
+  <p class="text-slate-500 dark:text-slate-400 mb-6 text-center max-w-md">
+    No tienes permisos para acceder a esta sección. Contacta a un administrador si crees que es un error.
+  </p>
+  <div class="flex gap-2">
+    <button mat-flat-button color="primary" routerLink="/dashboard">
+      <mat-icon>home</mat-icon>
+      Ir al dashboard
+    </button>
+    <button mat-button routerLink="/login">
+      <mat-icon>logout</mat-icon>
+      Iniciar sesión
+    </button>
+  </div>
+</div>

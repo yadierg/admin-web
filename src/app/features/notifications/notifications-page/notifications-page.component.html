@@ -2,8 +2,8 @@
   <!-- Header -->
   <div class="flex items-center justify-between flex-wrap gap-2">
     <div>
-      <h2 class="text-2xl font-semibold text-slate-800">Notificaciones</h2>
-      <p class="text-slate-500 text-sm mt-1">
+      <h2 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Notificaciones</h2>
+      <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
         {{ total() }} en total · {{ unreadCount() }} sin leer
       </p>
     </div>
@@ -20,6 +20,7 @@
     [value]="filter()"
     (change)="onFilterChange($event.value)"
     hideSingleSelectionIndicator
+    class="!bg-white dark:!bg-slate-800"
   >
     <mat-button-toggle value="all">Todas</mat-button-toggle>
     <mat-button-toggle value="unread">
@@ -34,18 +35,19 @@
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   } @else if (items().length === 0) {
-    <mat-card class="!p-12 text-center">
-      <mat-icon class="!w-16 !h-16 !text-6xl text-slate-300 mb-2">
+    <mat-card class="!p-12 text-center shadow-card bg-white dark:bg-slate-800">
+      <mat-icon class="!w-16 !h-16 !text-6xl text-slate-300 dark:text-slate-600 mb-2">
         notifications_off
       </mat-icon>
-      <p class="text-slate-500">No hay notificaciones.</p>
+      <p class="text-slate-500 dark:text-slate-400">No hay notificaciones.</p>
     </mat-card>
   } @else {
     <div class="flex flex-col gap-2">
       @for (n of items(); track n.id) {
-        <mat-card
-          class="!p-4 cursor-pointer hover:shadow-md transition-shadow"
-          [class.!bg-blue-50]="!n.isRead"
+        <div
+          class="bg-white dark:bg-slate-800 rounded-lg p-4 shadow-card hover:shadow-card-hover transition-shadow cursor-pointer border border-transparent"
+          [class.!border-brand-200]="!n.isRead"
+          [class.dark:!border-brand-800]="!n.isRead"
           (click)="onNotificationClick(n)"
         >
           <div class="flex items-start gap-3">
@@ -58,9 +60,9 @@
 
             <div class="flex-1 min-w-0">
               <div class="flex items-center gap-2 flex-wrap">
-                <span class="font-medium text-slate-800">{{ n.title }}</span>
+                <span class="font-medium text-slate-800 dark:text-slate-100">{{ n.title }}</span>
                 @if (!n.isRead) {
-                  <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                  <span class="w-2 h-2 rounded-full bg-brand-600"></span>
                 }
                 @if (n.priority !== 'normal') {
                   <span
@@ -71,8 +73,8 @@
                   </span>
                 }
               </div>
-              <p class="text-sm text-slate-600 mt-1">{{ n.message }}</p>
-              <p class="text-xs text-slate-400 mt-1">
+              <p class="text-sm text-slate-600 dark:text-slate-300 mt-1">{{ n.message }}</p>
+              <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">
                 {{ relativeDate(n.createdAt) }}
               </p>
             </div>
@@ -97,7 +99,7 @@
               </button>
             </div>
           </div>
-        </mat-card>
+        </div>
       }
     </div>
 
@@ -107,6 +109,7 @@
       [pageSizeOptions]="[10, 20, 50]"
       (page)="onPageChange($event)"
       showFirstLastButtons
+      class="!bg-transparent !text-slate-600 dark:!text-slate-400"
     ></mat-paginator>
   }
 </div>
