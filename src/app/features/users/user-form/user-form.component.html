@@ -1,9 +1,17 @@
 <div class="max-w-3xl mx-auto flex flex-col gap-6">
+  <!-- Header -->
   <div class="flex items-center gap-2">
-    <button mat-icon-button routerLink="/users" matTooltip="Volver">
+    <button
+      mat-icon-button
+      routerLink="/users"
+      matTooltip="Volver"
+      class="text-slate-600 dark:text-slate-300"
+    >
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h2 class="text-2xl font-semibold text-slate-800">{{ title() }}</h2>
+    <h2 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+      {{ title() }}
+    </h2>
   </div>
 
   @if (loading()) {
@@ -11,7 +19,7 @@
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   } @else {
-    <mat-card class="!p-6">
+    <mat-card class="!p-6 shadow-card bg-white dark:bg-slate-800">
       <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <mat-form-field appearance="outline">
@@ -31,16 +39,21 @@
           </mat-form-field>
 
           @if (!isEdit()) {
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="md:col-span-2">
               <mat-label>Contraseña</mat-label>
-              <input matInput type="password" formControlName="password" autocomplete="new-password" />
+              <input
+                matInput
+                type="password"
+                formControlName="password"
+                autocomplete="new-password"
+              />
               @if (form.controls.password.touched && form.controls.password.invalid) {
                 <mat-error>Contraseña requerida (mín. 8)</mat-error>
               }
             </mat-form-field>
           }
 
-          <mat-form-field appearance="outline">
+          <mat-form-field appearance="outline" class="md:col-span-2">
             <mat-label>Rol</mat-label>
             <mat-select formControlName="role">
               @for (role of roles(); track role.id) {
@@ -51,11 +64,9 @@
               <mat-error>Rol requerido</mat-error>
             }
           </mat-form-field>
-
-          
         </div>
 
-        <div class="flex items-center justify-end gap-2 mt-2">
+        <div class="flex items-center justify-end gap-2 mt-2 pt-4 border-t border-slate-200 dark:border-slate-700">
           <button mat-button type="button" routerLink="/users">Cancelar</button>
           <button
             mat-flat-button
