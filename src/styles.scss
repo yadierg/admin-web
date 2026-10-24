@@ -176,3 +176,25 @@ html.dark .mat-mdc-select-panel {
   color: #f1f5f9 !important;
   border-radius: 8px !important;
 }
+
+// ─── Expansion panel (dark mode) ───
+html.dark {
+  .mat-expansion-panel {
+    background: #1e293b !important;
+    color: #f1f5f9 !important;
+
+    .mat-expansion-panel-header {
+      color: #f1f5f9 !important;
+    }
+
+    .mat-expansion-panel-header-title,
+    .mat-expansion-panel-header-description {
+      color: #f1f5f9 !important;
+    }
+
+    .mat-expansion-indicator::after {
+      color: #cbd5e1 !important;
+      border-color: #cbd5e1 !important;
+    }
+  }
+}

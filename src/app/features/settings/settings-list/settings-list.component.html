@@ -1,8 +1,9 @@
 <div class="flex flex-col gap-4">
-  <div class="flex items-center justify-between">
+  <!-- Header -->
+  <div class="flex items-center justify-between flex-wrap gap-2">
     <div>
-      <h2 class="text-2xl font-semibold text-slate-800">Configuración</h2>
-      <p class="text-slate-500 text-sm mt-1">
+      <h2 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Configuración</h2>
+      <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
         Settings del tenant. Los "read-only" son de sistema.
       </p>
     </div>
@@ -14,9 +15,10 @@
     }
   </div>
 
+  <!-- Buscador -->
   <mat-form-field appearance="outline" class="w-full max-w-md">
     <mat-label>Buscar</mat-label>
-    <mat-icon matPrefix>search</mat-icon>
+    <mat-icon matPrefix class="text-slate-400">search</mat-icon>
     <input
       matInput
       [value]="searchQuery()"
@@ -30,22 +32,22 @@
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   } @else if (totalVisible() === 0) {
-    <mat-card class="!p-8 text-center">
-      <p class="text-slate-500">No se encontraron settings.</p>
-    </mat-card>
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-8 text-center shadow-card">
+      <p class="text-slate-500 dark:text-slate-400">No se encontraron settings.</p>
+    </div>
   } @else {
-    <div class="text-sm text-slate-500">
+    <div class="text-sm text-slate-500 dark:text-slate-400">
       {{ totalVisible() }} settings en {{ groups().length }} grupos
     </div>
 
     <div class="flex flex-col gap-3">
       @for (group of groups(); track group) {
-        <mat-expansion-panel [expanded]="true" class="!shadow-none border border-slate-200">
+        <mat-expansion-panel [expanded]="true" class="settings-panel">
           <mat-expansion-panel-header>
             <mat-panel-title class="flex items-center gap-2">
-              <mat-icon class="text-blue-600">folder</mat-icon>
-              <span class="font-semibold capitalize">{{ group }}</span>
-              <span class="text-xs text-slate-500">
+              <mat-icon class="text-brand-600">folder</mat-icon>
+              <span class="font-semibold capitalize text-slate-800 dark:text-slate-100">{{ group }}</span>
+              <span class="text-xs text-slate-500 dark:text-slate-400">
                 ({{ grouped()[group].length }})
               </span>
             </mat-panel-title>
@@ -53,7 +55,7 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3 py-2">
             @for (s of grouped()[group]; track s.id) {
-              <div class="border border-slate-200 rounded-lg p-3 hover:border-blue-300 transition-colors">
+              <div class="border border-slate-200 dark:border-slate-700 rounded-lg p-3 hover:border-brand-300 dark:hover:border-brand-700 transition-colors bg-white dark:bg-slate-800/50">
                 <div class="flex items-start justify-between gap-2 mb-2">
                   <div class="flex items-center gap-1.5 min-w-0">
                     <mat-icon
@@ -62,14 +64,14 @@
                     >
                       {{ iconForType(s.type) }}
                     </mat-icon>
-                    <span class="font-mono text-sm font-medium text-slate-800 truncate">
+                    <span class="font-mono text-sm font-medium text-slate-800 dark:text-slate-100 truncate">
                       {{ s.key }}
                     </span>
                   </div>
                   <div class="flex items-center gap-1 shrink-0">
                     @if (s.isPublic) {
                       <span
-                        class="text-[10px] px-1.5 py-0.5 rounded bg-green-100 text-green-700 font-medium"
+                        class="text-[10px] px-1.5 py-0.5 rounded bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 font-medium"
                         matTooltip="Visible en la tienda pública"
                       >
                         PÚBLICO
@@ -77,7 +79,7 @@
                     }
                     @if (!s.isEditable) {
                       <span
-                        class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-medium"
+                        class="text-[10px] px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 font-medium"
                         matTooltip="Solo lectura"
                       >
                         READ-ONLY
@@ -86,12 +88,12 @@
                   </div>
                 </div>
 
-                <div class="bg-slate-50 rounded p-2 font-mono text-sm text-slate-800 break-all">
+                <div class="bg-slate-50 dark:bg-slate-900/50 rounded p-2 font-mono text-sm text-slate-800 dark:text-slate-200 break-all">
                   {{ formatValue(s) }}
                 </div>
 
                 @if (s.description) {
-                  <p class="text-xs text-slate-500 mt-2">{{ s.description }}</p>
+                  <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">{{ s.description }}</p>
                 }
 
                 @if (s.isEditable && (canUpdate || canDelete)) {
