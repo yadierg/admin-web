@@ -72,7 +72,14 @@ export class UsersListComponent implements AfterViewInit {
   readonly canDelete = this.store.hasPermission('users.delete');
   readonly currentUserId = this.store.user()?.id;
 
-  readonly assignableRoles = ['admin', 'user'];
+  readonly assignableRoles = [
+    'super_admin',
+    'admin',
+    'budget_manager',
+    'inventory_manager',
+    'store_manager',
+    'user',
+  ];
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;

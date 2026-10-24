@@ -1,9 +1,17 @@
 <div class="max-w-3xl mx-auto flex flex-col gap-6">
+  <!-- Header -->
   <div class="flex items-center gap-2">
-    <button mat-icon-button routerLink="/roles" matTooltip="Volver">
+    <button
+      mat-icon-button
+      routerLink="/roles"
+      matTooltip="Volver"
+      class="text-slate-600 dark:text-slate-300"
+    >
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h2 class="text-2xl font-semibold text-slate-800">{{ title() }}</h2>
+    <h2 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+      {{ title() }}
+    </h2>
   </div>
 
   @if (loading()) {
@@ -11,7 +19,7 @@
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   } @else {
-    <mat-card class="!p-6">
+    <mat-card class="!p-6 shadow-card bg-white dark:bg-slate-800">
       <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
         <mat-form-field appearance="outline">
           <mat-label>Nombre del rol</mat-label>
@@ -31,7 +39,7 @@
           ></textarea>
         </mat-form-field>
 
-        <div class="flex items-center justify-end gap-2 mt-2">
+        <div class="flex items-center justify-end gap-2 mt-2 pt-4 border-t border-slate-200 dark:border-slate-700">
           <button mat-button type="button" routerLink="/roles">Cancelar</button>
           <button
             mat-flat-button
