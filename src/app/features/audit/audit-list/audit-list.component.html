@@ -1,13 +1,14 @@
 <div class="flex flex-col gap-4">
+  <!-- Header -->
   <div>
-    <h2 class="text-2xl font-semibold text-slate-800">Auditoría</h2>
-    <p class="text-slate-500 text-sm mt-1">
+    <h2 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Auditoría</h2>
+    <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
       Registro de todas las acciones del sistema
     </p>
   </div>
 
   <!-- Filtros -->
-  <mat-card class="!p-4">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-card p-4">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
       <mat-form-field appearance="outline" class="!mb-0">
         <mat-label>Acción</mat-label>
@@ -66,30 +67,42 @@
         Limpiar filtros
       </button>
     </div>
-  </mat-card>
+  </div>
 
   <!-- Tabla -->
-  <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+  <div class="bg-white dark:bg-slate-800 rounded-lg shadow-card overflow-hidden">
     @if (loading()) {
       <div class="flex items-center justify-center p-12">
         <mat-spinner diameter="40"></mat-spinner>
       </div>
     } @else if (logs().length === 0) {
-      <div class="p-8 text-center text-slate-500">
+      <div class="p-8 text-center text-slate-500 dark:text-slate-400">
         No hay logs con los filtros actuales.
       </div>
     } @else {
       <table mat-table [dataSource]="logs()" class="w-full">
         <ng-container matColumnDef="createdAt">
-          <th mat-header-cell *matHeaderCellDef>Fecha</th>
-          <td mat-cell *matCellDef="let log" class="text-sm text-slate-600 whitespace-nowrap">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="!text-xs !uppercase !tracking-wide !text-slate-500 dark:!text-slate-400 !font-semibold"
+          >
+            Fecha
+          </th>
+          <td mat-cell *matCellDef="let log" class="!py-3 text-sm text-slate-600 dark:text-slate-300 whitespace-nowrap">
             {{ log.createdAt | date: 'short' }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="action">
-          <th mat-header-cell *matHeaderCellDef>Acción</th>
-          <td mat-cell *matCellDef="let log">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="!text-xs !uppercase !tracking-wide !text-slate-500 dark:!text-slate-400 !font-semibold"
+          >
+            Acción
+          </th>
+          <td mat-cell *matCellDef="let log" class="!py-3">
             <span
               class="inline-flex px-2 py-0.5 rounded text-xs font-medium"
               [class]="actionColor(log.action)"
@@ -100,8 +113,14 @@
         </ng-container>
 
         <ng-container matColumnDef="entity">
-          <th mat-header-cell *matHeaderCellDef>Entidad</th>
-          <td mat-cell *matCellDef="let log">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="!text-xs !uppercase !tracking-wide !text-slate-500 dark:!text-slate-400 !font-semibold"
+          >
+            Entidad
+          </th>
+          <td mat-cell *matCellDef="let log" class="!py-3">
             <span
               class="inline-flex px-2 py-0.5 rounded text-xs font-medium"
               [class]="entityColor(log.entity)"
@@ -109,7 +128,7 @@
               {{ log.entity }}
             </span>
             @if (log.entityId) {
-              <span class="text-xs text-slate-400 ml-1 font-mono">
+              <span class="text-xs text-slate-400 dark:text-slate-500 ml-1 font-mono">
                 {{ log.entityId.slice(0, 8) }}…
               </span>
             }
@@ -117,11 +136,17 @@
         </ng-container>
 
         <ng-container matColumnDef="user">
-          <th mat-header-cell *matHeaderCellDef>Usuario</th>
-          <td mat-cell *matCellDef="let log" class="text-sm">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="!text-xs !uppercase !tracking-wide !text-slate-500 dark:!text-slate-400 !font-semibold"
+          >
+            Usuario
+          </th>
+          <td mat-cell *matCellDef="let log" class="!py-3 text-sm">
             @if (log.user) {
-              <div class="text-slate-800">{{ log.user.name }}</div>
-              <div class="text-xs text-slate-500">{{ log.user.email }}</div>
+              <div class="text-slate-800 dark:text-slate-100">{{ log.user.name }}</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400">{{ log.user.email }}</div>
             } @else {
               <span class="text-slate-400">—</span>
             }
@@ -129,22 +154,34 @@
         </ng-container>
 
         <ng-container matColumnDef="ipAddress">
-          <th mat-header-cell *matHeaderCellDef>IP</th>
-          <td mat-cell *matCellDef="let log" class="text-sm text-slate-600 font-mono">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="!text-xs !uppercase !tracking-wide !text-slate-500 dark:!text-slate-400 !font-semibold"
+          >
+            IP
+          </th>
+          <td mat-cell *matCellDef="let log" class="!py-3 text-sm text-slate-600 dark:text-slate-300 font-mono">
             {{ log.ipAddress || '—' }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>Status</th>
-          <td mat-cell *matCellDef="let log">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="!text-xs !uppercase !tracking-wide !text-slate-500 dark:!text-slate-400 !font-semibold"
+          >
+            Status
+          </th>
+          <td mat-cell *matCellDef="let log" class="!py-3">
             @if (log.statusCode !== null) {
               <span
                 class="text-xs font-mono px-1.5 py-0.5 rounded"
                 [class]="
                   log.statusCode >= 200 && log.statusCode < 300
-                    ? 'bg-green-100 text-green-700'
-                    : 'bg-red-100 text-red-700'
+                    ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
+                    : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
                 "
               >
                 {{ log.statusCode }}
@@ -156,17 +193,27 @@
         </ng-container>
 
         <ng-container matColumnDef="duration">
-          <th mat-header-cell *matHeaderCellDef>Duración</th>
-          <td mat-cell *matCellDef="let log" class="text-sm text-slate-600">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            class="!text-xs !uppercase !tracking-wide !text-slate-500 dark:!text-slate-400 !font-semibold"
+          >
+            Duración
+          </th>
+          <td mat-cell *matCellDef="let log" class="!py-3 text-sm text-slate-600 dark:text-slate-300">
             {{ log.durationMs !== null ? log.durationMs + ' ms' : '—' }}
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns"
+          class="!h-12 border-b border-slate-200 dark:border-slate-700"
+        ></tr>
         <tr
           mat-row
           *matRowDef="let row; columns: displayedColumns"
-          class="hover:bg-slate-50 cursor-pointer"
+          class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors cursor-pointer"
           (click)="goToDetail(row)"
         ></tr>
       </table>
@@ -177,6 +224,7 @@
         [pageSizeOptions]="[10, 20, 50, 100]"
         (page)="onPageChange($event)"
         showFirstLastButtons
+        class="!bg-transparent !text-slate-600 dark:!text-slate-400 border-t border-slate-200 dark:border-slate-700"
       ></mat-paginator>
     }
   </div>
