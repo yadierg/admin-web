@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -8,11 +8,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../../core/auth/auth.service';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
+    RouterLink,   // ← añadir
     ReactiveFormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -20,6 +22,7 @@ import { AuthService } from '../../../core/auth/auth.service';
     MatButtonModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatDividerModule,   // ← añadir si no está
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

@@ -1,0 +1,112 @@
+<div class="flex flex-col gap-6">
+  <!-- Header -->
+  <div>
+    <h1 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+      Dashboard
+    </h1>
+    <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+      Resumen general del tenant Instelec
+    </p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    @for (card of cards(); track card.label) {
+      <a [routerLink]="card.link" class="block">
+        <div class="bg-white dark:bg-slate-800 rounded-lg p-5 shadow-card hover:shadow-card-hover transition-shadow cursor-pointer">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400 font-medium">
+                {{ card.label }}
+              </p>
+              <p class="text-3xl font-bold text-slate-800 dark:text-slate-100 mt-1">
+                @if (card.loading) {
+                  <span class="text-base text-slate-400">…</span>
+                } @else if (card.error) {
+                  <span class="text-sm text-red-500">Error</span>
+                } @else {
+                  {{ card.value }}
+                }
+              </p>
+            </div>
+            <div
+              class="w-12 h-12 rounded-lg flex items-center justify-center"
+              [class]="card.colorClass"
+            >
+              <mat-icon [class]="card.iconClass">{{ card.icon }}</mat-icon>
+            </div>
+          </div>
+        </div>
+      </a>
+    }
+  </div>
+
+  <!-- Sección secundaria -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+    <!-- Actividad reciente -->
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-5 shadow-card lg:col-span-2">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100">
+          Actividad reciente
+        </h3>
+        <a
+          routerLink="/audit"
+          class="text-sm text-brand-600 hover:underline font-medium"
+        >
+          Ver todo
+        </a>
+      </div>
+      <div class="space-y-1">
+        @for (log of [1,2,3,4]; track log) {
+          <div class="flex items-center gap-3 py-2.5 border-b border-slate-100 dark:border-slate-700 last:border-0">
+            <div class="w-8 h-8 rounded-full bg-brand-50 dark:bg-brand-900/20 flex items-center justify-center shrink-0">
+              <mat-icon class="!text-base text-brand-600">history</mat-icon>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm text-slate-700 dark:text-slate-300 truncate">
+                Cargando actividad…
+              </p>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Acciones rápidas -->
+    <div class="bg-white dark:bg-slate-800 rounded-lg p-5 shadow-card">
+      <h3 class="text-base font-semibold text-slate-800 dark:text-slate-100 mb-4">
+        Acciones rápidas
+      </h3>
+      <div class="space-y-2">
+        <a
+          routerLink="/users/new"
+          class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-900/20 text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2 transition-colors"
+        >
+          <span class="w-2 h-2 rounded-full bg-brand-600"></span>
+          Nuevo usuario
+        </a>
+        <a
+          routerLink="/roles/new"
+          class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-900/20 text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2 transition-colors"
+        >
+          <span class="w-2 h-2 rounded-full bg-green-500"></span>
+          Nuevo rol
+        </a>
+        <a
+          routerLink="/settings"
+          class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-900/20 text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2 transition-colors"
+        >
+          <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+          Ver configuración
+        </a>
+        <a
+          routerLink="/audit"
+          class="w-full text-left px-3 py-2.5 rounded-lg hover:bg-brand-50 dark:hover:bg-brand-900/20 text-sm text-slate-700 dark:text-slate-300 flex items-center gap-2 transition-colors"
+        >
+          <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+          Ver auditoría
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

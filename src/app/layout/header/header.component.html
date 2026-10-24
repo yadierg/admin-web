@@ -1,8 +1,7 @@
-<mat-toolbar class="!bg-white !text-slate-800 border-b border-slate-200 shadow-sm flex items-center">
-  <!-- Botón hamburguesa -->
+<mat-toolbar class="!bg-white dark:!bg-slate-800 !text-slate-800 dark:!text-slate-100 border-b border-slate-200 dark:border-slate-700 flex items-center">
   <button
     mat-icon-button
-    (click)="onToggleSidenav()"
+    (click)="toggleSidenav.emit()"
     matTooltip="Mostrar/ocultar menú"
     class="mr-2"
   >
@@ -12,20 +11,34 @@
   <span class="font-medium">Admin</span>
   <span class="flex-1"></span>
 
+  <button
+    mat-icon-button
+    (click)="toggleTheme()"
+    [matTooltip]="isDark() ? 'Modo claro' : 'Modo oscuro'"
+  >
+    <mat-icon>{{ isDark() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+  </button>
+
+  <app-notifications-bell />
+
   <button mat-button [matMenuTriggerFor]="userMenu" class="!h-auto !py-1">
-    <div class="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold mr-2">
+    <div class="w-9 h-9 rounded-full bg-brand-600 text-white flex items-center justify-center font-semibold mr-2 text-sm">
       {{ initials() }}
     </div>
     <div class="text-left leading-tight hidden sm:block">
       <div class="text-sm font-medium">{{ userName() }}</div>
-      <div class="text-xs text-slate-500">{{ userEmail() }}</div>
+      <div class="text-xs text-slate-500 dark:text-slate-400">{{ userRole() }}</div>
     </div>
   </button>
 
   <mat-menu #userMenu="matMenu" xPosition="before">
-    <app-notifications-bell />
     <button mat-menu-item disabled>
       <span class="text-xs text-slate-500">{{ userEmail() }}</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="openChangePassword()">
+      <mat-icon>lock</mat-icon>
+      <span>Cambiar contraseña</span>
     </button>
     <mat-divider></mat-divider>
     <button mat-menu-item (click)="logout()">

@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, tap, catchError, throwError, of } from 'rxjs';
+import { Observable, tap, catchError, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthStore } from './auth.store';
 import { RefreshService } from './refresh.service';
@@ -10,6 +10,23 @@ import { LoginResponse, User } from '../models';
 export interface LoginPayload {
   email: string;
   password: string;
+}
+
+export interface RegisterPayload {
+  email: string;
+  password: string;
+  name: string;
+  tenantId: string;
+}
+
+export interface RegisterResponse {
+  message: string;
+  user: Pick<User, 'id' | 'email' | 'name' | 'role'>;
+}
+
+export interface ChangePasswordPayload {
+  currentPassword: string;
+  newPassword: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -29,14 +46,21 @@ export class AuthService {
       .pipe(tap((res) => this.store.setSession(res)));
   }
 
+  register(payload: RegisterPayload): Observable<RegisterResponse> {
+    return this.http.post<RegisterResponse>(`${this.baseUrl}/register`, payload);
+  }
+
+  changePassword(payload: ChangePasswordPayload): Observable<unknown> {
+    return this.http.post(`${this.baseUrl}/change-password`, payload);
+  }
+
   logout(): Observable<void> {
     return this.http.post<void>(`${this.baseUrl}/logout`, {}).pipe(
       catchError((err) => {
-        // Aunque el backend falle, limpiamos localmente
         console.warn('Logout backend failed, cleaning local state anyway', err);
         return of(void 0);
       }),
-      tap(() => this.cleanupAndRedirect()),
+      tap(() => this.cleanupAndRedirect())
     );
   }
 
@@ -59,7 +83,7 @@ export class AuthService {
   }
 
   private cleanupAndRedirect(): void {
-    this.store.clear();   // ← limpia localStorage + signals
+    this.store.clear();
     this.router.navigateByUrl('/login');
   }
 }

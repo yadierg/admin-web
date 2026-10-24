@@ -8,7 +8,7 @@
   <mat-icon>notifications</mat-icon>
   @if (count() > 0) {
     <span
-      class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 leading-none pointer-events-none"
+      class="absolute -top-0.5 -right-0.5 bg-brand-600 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1 leading-none pointer-events-none"
     >
       {{ displayCount() }}
     </span>
@@ -16,8 +16,8 @@
 </button>
 
 <mat-menu #notifMenu="matMenu" xPosition="before" class="!max-w-md">
-  <div class="px-4 py-2 flex items-center justify-between border-b border-slate-200">
-    <span class="font-semibold text-slate-800">Notificaciones</span>
+  <div class="px-4 py-2 flex items-center justify-between border-b border-slate-200 dark:border-slate-700">
+    <span class="font-semibold text-slate-800 dark:text-slate-100">Notificaciones</span>
     @if (count() > 0) {
       <button mat-button color="primary" (click)="markAllAsRead(); $event.stopPropagation()">
         Marcar todas
@@ -26,9 +26,9 @@
   </div>
 
   @if (loading()) {
-    <div class="p-4 text-center text-sm text-slate-500">Cargando...</div>
+    <div class="p-4 text-center text-sm text-slate-500 dark:text-slate-400">Cargando...</div>
   } @else if (recent().length === 0) {
-    <div class="p-4 text-center text-sm text-slate-500">
+    <div class="p-4 text-center text-sm text-slate-500 dark:text-slate-400">
       No tienes notificaciones
     </div>
   } @else {
@@ -45,30 +45,30 @@
             </mat-icon>
             <div class="flex-1 min-w-0 text-left">
               <div class="flex items-center gap-2">
-                <span class="font-medium text-sm text-slate-800 truncate">
+                <span class="font-medium text-sm text-slate-800 dark:text-slate-100 truncate">
                   {{ n.title }}
                 </span>
                 @if (!n.isRead) {
-                  <span class="w-2 h-2 rounded-full bg-blue-500 shrink-0"></span>
+                  <span class="w-2 h-2 rounded-full bg-brand-600 shrink-0"></span>
                 }
               </div>
-              <p class="text-xs text-slate-600 line-clamp-2 mt-0.5">
+              <p class="text-xs text-slate-600 dark:text-slate-300 line-clamp-2 mt-0.5">
                 {{ n.message }}
               </p>
-              <p class="text-[10px] text-slate-400 mt-1">
+              <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-1">
                 {{ relativeDate(n.createdAt) }}
               </p>
             </div>
           </div>
         </button>
-        <mat-divider></mat-divider>
+        <mat-divider class="!border-slate-100 dark:!border-slate-700"></mat-divider>
       }
     </div>
   }
 
-  <mat-divider></mat-divider>
+  <mat-divider class="!border-slate-200 dark:!border-slate-700"></mat-divider>
   <button mat-menu-item (click)="goToAll()" class="!justify-center">
-    <span class="text-blue-600 font-medium text-sm w-full text-center">
+    <span class="text-brand-600 font-medium text-sm w-full text-center">
       Ver todas
     </span>
   </button>

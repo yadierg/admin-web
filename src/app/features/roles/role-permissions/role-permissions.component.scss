@@ -2,7 +2,17 @@
   display: block;
 }
 
-mat-expansion-panel {
+.permissions-panel {
   box-shadow: none !important;
   border: 1px solid #e2e8f0;
+  border-radius: 8px !important;
+
+  ::ng-deep .mat-expansion-panel-header {
+    height: auto !important;
+    min-height: 48px;
+  }
+}
+
+html.dark .permissions-panel {
+  border-color: #334155;
 }

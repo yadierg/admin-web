@@ -1,3 +1,40 @@
 :host {
   display: block;
 }
+
+.settings-panel {
+  box-shadow: none !important;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px !important;
+
+  ::ng-deep .mat-expansion-panel-header {
+    height: auto !important;
+    min-height: 48px;
+  }
+}
+
+// ─── Indicador de expandir ───
+.settings-panel {
+  ::ng-deep .mat-expansion-indicator {
+    &::after {
+      color: #475569 !important;
+      border-color: #475569 !important;
+    }
+  }
+}
+
+html.dark .settings-panel {
+  border-color: #334155;
+
+  ::ng-deep .mat-expansion-indicator {
+    &::after {
+      color: #cbd5e1 !important;
+      border-color: #cbd5e1 !important;
+    }
+  }
+
+  ::ng-deep .mat-expansion-panel-header-title,
+  ::ng-deep .mat-expansion-panel-header-description {
+    color: #f1f5f9 !important;
+  }
+}

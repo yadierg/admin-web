@@ -1,11 +1,19 @@
-<div class="min-h-screen flex items-center justify-center bg-slate-100 p-4">
-  <mat-card class="w-full max-w-md p-2">
+<div class="min-h-screen flex items-center justify-center bg-surface dark:bg-surface-dark p-4">
+  <mat-card class="w-full max-w-md p-2 shadow-card">
     <mat-card-header class="flex flex-col items-center pt-4">
-      <mat-card-title class="text-2xl font-semibold">Instelec Admin</mat-card-title>
-      <mat-card-subtitle>Inicia sesión para continuar</mat-card-subtitle>
+      <div class="w-12 h-12 bg-brand-600 rounded-lg flex items-center justify-center text-white font-bold text-lg mb-3">
+        IE
+      </div>
+      <mat-card-title class="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+        Instelec Admin
+      </mat-card-title>
+      <mat-card-subtitle class="dark:text-slate-400">
+        Inicia sesión para continuar
+      </mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content class="pt-6">
+      <!-- FORM SOLO con los campos y el botón -->
       <form [formGroup]="form" (ngSubmit)="submit()" class="flex flex-col gap-4">
         <mat-form-field appearance="outline">
           <mat-label>Email</mat-label>
@@ -53,6 +61,16 @@
           Iniciar sesión
         </button>
       </form>
+
+      <!-- LINK FUERA del form -->
+      <mat-divider class="!my-5"></mat-divider>
+
+      <p class="text-center text-sm text-slate-600 dark:text-slate-400">
+        ¿No tienes cuenta?
+        <a routerLink="/register" class="text-brand-600 font-medium hover:underline ml-1">
+          Regístrate
+        </a>
+      </p>
     </mat-card-content>
   </mat-card>
 </div>

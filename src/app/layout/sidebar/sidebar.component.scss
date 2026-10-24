@@ -3,6 +3,48 @@
   height: 100%;
 }
 
-::ng-deep .mat-mdc-list-item:hover {
-  background-color: rgba(255, 255, 255, 0.04);
+.sidebar-item {
+  position: relative;
+  border-radius: 8px;
+  margin: 2px 0;
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+
+  &.sidebar-active {
+    background-color: rgba(200, 16, 46, 0.12) !important;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 8px;
+      bottom: 8px;
+      width: 3px;
+      background-color: #c8102e;
+      border-radius: 0 3px 3px 0;
+    }
+
+    ::ng-deep .mat-icon,
+    ::ng-deep .mat-mdc-list-item-title {
+      color: #e86686 !important;
+    }
+
+    ::ng-deep .mat-mdc-list-item-title {
+      font-weight: 600;
+    }
+  }
+}
+
+::ng-deep .mat-mdc-list-item {
+  border-radius: 8px !important;
+  height: 44px !important;
+}
+
+::ng-deep .mat-mdc-list-item .mat-icon {
+  font-size: 20px !important;
+  width: 20px !important;
+  height: 20px !important;
 }

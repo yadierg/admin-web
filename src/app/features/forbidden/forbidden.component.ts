@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-forbidden',
   standalone: true,
-  template: `
-    <div class="min-h-screen flex flex-col items-center justify-center gap-2">
-      <h1 class="text-3xl font-bold">403 — Acceso denegado</h1>
-      <p class="text-slate-600">No tienes permisos para esta sección.</p>
-    </div>
-  `,
+  imports: [RouterLink, MatButtonModule, MatIconModule],
+  templateUrl: './forbidden.component.html',
+  styleUrl: './forbidden.component.scss',
 })
 export class ForbiddenComponent {}

@@ -1,9 +1,17 @@
 <div class="max-w-4xl mx-auto flex flex-col gap-6">
+  <!-- Header -->
   <div class="flex items-center gap-2">
-    <button mat-icon-button routerLink="/users" matTooltip="Volver">
+    <button
+      mat-icon-button
+      routerLink="/users"
+      matTooltip="Volver"
+      class="text-slate-600 dark:text-slate-300"
+    >
       <mat-icon>arrow_back</mat-icon>
     </button>
-    <h2 class="text-2xl font-semibold text-slate-800">Detalle del usuario</h2>
+    <h2 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">
+      Detalle del usuario
+    </h2>
   </div>
 
   @if (loading()) {
@@ -11,28 +19,34 @@
       <mat-spinner diameter="40"></mat-spinner>
     </div>
   } @else if (user(); as u) {
-    <mat-card class="!p-6">
-      <div class="flex items-start gap-4">
-        <div class="w-16 h-16 rounded-full bg-blue-600 text-white flex items-center justify-center text-2xl font-semibold shrink-0">
+    <mat-card class="!p-6 shadow-card bg-white dark:bg-slate-800">
+      <!-- Cabecera -->
+      <div class="flex items-start gap-4 flex-wrap">
+        <div class="w-16 h-16 rounded-full bg-brand-600 text-white flex items-center justify-center text-2xl font-semibold shrink-0">
           {{ u.name.charAt(0).toUpperCase() }}
         </div>
-        <div class="flex-1">
-          <h3 class="text-xl font-semibold text-slate-800">{{ u.name }}</h3>
-          <p class="text-slate-500">{{ u.email }}</p>
-          <div class="flex items-center gap-2 mt-2">
-            <mat-chip class="!bg-blue-50 !text-blue-700">{{ u.role }}</mat-chip>
+        <div class="flex-1 min-w-0">
+          <h3 class="text-xl font-semibold text-slate-800 dark:text-slate-100">{{ u.name }}</h3>
+          <p class="text-slate-500 dark:text-slate-400">{{ u.email }}</p>
+          <div class="flex items-center gap-2 mt-2 flex-wrap">
+            <mat-chip class="!bg-brand-50 !text-brand-700 dark:!bg-brand-900/30 dark:!text-brand-300">
+              {{ u.role }}
+            </mat-chip>
             @if (u.isActive) {
-              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 text-green-700 text-xs font-medium">
+              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs font-medium">
                 <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
                 Activo
               </span>
             } @else {
-              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100 text-slate-600 text-xs font-medium">
+              <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400 text-xs font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
                 Inactivo
               </span>
             }
             @if (u.isSuperAdmin) {
-              <mat-chip class="!bg-purple-50 !text-purple-700">Super Admin</mat-chip>
+              <mat-chip class="!bg-purple-50 !text-purple-700 dark:!bg-purple-900/30 dark:!text-purple-300">
+                Super Admin
+              </mat-chip>
             }
           </div>
         </div>
@@ -48,40 +62,42 @@
         }
       </div>
 
-      <mat-divider class="my-6"></mat-divider>
+      <mat-divider class="!my-6"></mat-divider>
 
+      <!-- Info -->
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
         <div>
-          <span class="text-slate-500">ID</span>
-          <p class="text-slate-800 font-mono text-xs break-all">{{ u.id }}</p>
+          <span class="text-slate-500 dark:text-slate-400">ID</span>
+          <p class="text-slate-800 dark:text-slate-100 font-mono text-xs break-all">{{ u.id }}</p>
         </div>
         <div>
-          <span class="text-slate-500">Tenant</span>
-          <p class="text-slate-800">{{ u.tenant?.name ?? u.tenantId }}</p>
+          <span class="text-slate-500 dark:text-slate-400">Tenant</span>
+          <p class="text-slate-800 dark:text-slate-100">{{ u.tenant?.name ?? u.tenantId }}</p>
         </div>
         <div>
-          <span class="text-slate-500">Última conexión</span>
-          <p class="text-slate-800">
+          <span class="text-slate-500 dark:text-slate-400">Última conexión</span>
+          <p class="text-slate-800 dark:text-slate-100">
             {{ u.lastLogin ? (u.lastLogin | date: 'medium') : '—' }}
           </p>
         </div>
         <div>
-            <span class="text-slate-500">Creado</span>
-            <p class="text-slate-800">
-                {{ u.tenant?.createdAt ? (u.tenant?.createdAt | date: 'medium') : '—' }}
-            </p>
+          <span class="text-slate-500 dark:text-slate-400">Creado</span>
+          <p class="text-slate-800 dark:text-slate-100">
+            {{ u.tenant?.createdAt ? (u.tenant?.createdAt | date: 'medium') : '—' }}
+          </p>
         </div>
       </div>
 
-      <mat-divider class="my-6"></mat-divider>
+      <mat-divider class="!my-6"></mat-divider>
 
+      <!-- Roles -->
       <div>
-        <h4 class="text-sm font-semibold text-slate-700 mb-3">
+        <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-3">
           Roles asignados ({{ u.roles.length }})
         </h4>
         <div class="flex flex-wrap gap-2">
           @for (role of u.roles; track role.id) {
-            <mat-chip class="!bg-slate-100 !text-slate-700">
+            <mat-chip class="!bg-slate-100 !text-slate-700 dark:!bg-slate-700 dark:!text-slate-300">
               {{ role.name }}
             </mat-chip>
           }

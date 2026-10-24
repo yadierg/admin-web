@@ -1,25 +1,42 @@
-<div class="h-full flex flex-col bg-slate-900 text-slate-100">
-  <div class="px-4 py-5 border-b border-slate-700 flex items-center gap-2">
-    <mat-icon class="text-blue-400">bolt</mat-icon>
-    <span class="font-semibold text-lg">Instelec</span>
+<div class="h-full flex flex-col bg-sidebar-bg text-slate-300">
+  <!-- Logo -->
+  <div class="h-16 flex items-center gap-3 px-5 border-b border-slate-700">
+    <img
+      src="assets/logo.png"
+      alt="Instelec"
+      class="h-8 w-auto"
+      onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+    />
+    <div
+      class="hidden items-center gap-2"
+      style="display: none;"
+    >
+      <div class="w-8 h-8 bg-brand-600 rounded-lg flex items-center justify-center text-white font-bold text-sm">
+        IE
+      </div>
+      <span class="text-white font-semibold text-lg tracking-wide">INSTELEC</span>
+    </div>
   </div>
 
-  <mat-nav-list class="flex-1 py-2">
+  <!-- Nav -->
+  <mat-nav-list class="flex-1 py-3 px-2">
     @for (item of visibleItems(); track item.route) {
       <a
         mat-list-item
         [routerLink]="item.route"
-        routerLinkActive="bg-slate-800 text-blue-300"
+        routerLinkActive="sidebar-active"
         [routerLinkActiveOptions]="{ exact: false }"
         (click)="onClick()"
-        class="text-slate-200"
+        class="sidebar-item"
       >
-        <mat-icon matListItemIcon class="text-slate-300">{{ item.icon }}</mat-icon>
-        <span matListItemTitle>{{ item.label }}</span>
+        <mat-icon matListItemIcon class="text-slate-400">{{ item.icon }}</mat-icon>
+        <span matListItemTitle class="text-sm">{{ item.label }}</span>
       </a>
     }
   </mat-nav-list>
 
-  <mat-divider class="border-slate-700"></mat-divider>
-  <div class="p-3 text-xs text-slate-400">v0.1.0</div>
+  <!-- Footer -->
+  <div class="px-5 py-3 border-t border-slate-700 text-xs text-slate-500">
+    v0.1.0 · Instelec
+  </div>
 </div>
