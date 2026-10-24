@@ -198,3 +198,52 @@ html.dark {
     }
   }
 }
+
+/* ─── Tablas responsive ─── */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+
+  // Scrollbar visible y estilizada
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
+
+html.dark .table-scroll {
+  &::-webkit-scrollbar-track {
+    background: #1e293b;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #475569;
+  }
+}
+
+.table-scroll table {
+  min-width: 800px;
+  display: block;   // ← CRÍTICO: `mat-table` usa display: table por defecto
+
+  // Excepción: el header y las filas deben seguir siendo table-row/table-cell
+  mat-header-row,
+  mat-row {
+    display: table-row;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-scroll table {
+    min-width: 700px;
+  }
+}
