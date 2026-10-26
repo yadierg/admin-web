@@ -34,6 +34,7 @@ export class SidebarComponent {
     { label: 'Dashboard', icon: 'dashboard', route: '/dashboard' },
     { label: 'Usuarios', icon: 'people', route: '/users', permission: 'users.read' },
     { label: 'Roles', icon: 'shield', route: '/roles', permission: 'roles.read' },
+    { label: 'Unidades', icon: 'straighten', route: '/units-of-measure', permission: 'inventory.read' },
     { label: 'Configuración', icon: 'settings', route: '/settings', permission: 'settings.read' },
     { label: 'Auditoría', icon: 'history', route: '/audit', permission: 'audit.read' },
     { label: 'Notificaciones', icon: 'notifications', route: '/notifications', permission: 'notifications.read' },

@@ -73,9 +73,9 @@ export class ChangePasswordDialogComponent {
       next: () => {
         this.saving.set(false);
         this.snack.open(
-          'Contraseña actualizada. Inicia sesión de nuevo.',
+          'Contraseña actualizada. Todas las sesiones se cerraron. Inicia sesión de nuevo.',
           'Cerrar',
-          { duration: 4000 }
+          { duration: 5000 }
         );
         this.dialogRef.close(true);
         setTimeout(() => this.auth.logout().subscribe(), 1500);
