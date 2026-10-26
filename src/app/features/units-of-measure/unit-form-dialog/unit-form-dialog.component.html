@@ -1,0 +1,95 @@
+<h2 mat-dialog-title class="!text-slate-800 dark:!text-slate-100">
+  {{ isEdit() ? 'Editar unidad' : 'Nueva unidad' }}
+</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="flex flex-col gap-3 pt-2">
+    <!-- Nombre + Abreviatura -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <mat-form-field appearance="outline" class="sm:col-span-2">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="name" placeholder="ej. Metro" />
+        @if (form.controls.name.touched && form.controls.name.invalid) {
+          <mat-error>Nombre requerido (máx. 50)</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Abrev.</mat-label>
+        <input
+          matInput
+          formControlName="abbreviation"
+          placeholder="ej. m"
+          class="font-mono"
+        />
+        @if (isEdit()) {
+          <mat-hint>No editable</mat-hint>
+        }
+        @if (form.controls.abbreviation.touched && form.controls.abbreviation.invalid) {
+          <mat-error>Requerido (máx. 10)</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <!-- Nombre en inglés -->
+    <mat-form-field appearance="outline">
+      <mat-label>Nombre en inglés (opcional)</mat-label>
+      <input matInput formControlName="nameEn" placeholder="ej. Meter" />
+    </mat-form-field>
+
+    <!-- Tipo + Decimales + Orden -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <mat-select formControlName="type">
+          @for (t of unitTypes; track t) {
+            <mat-option [value]="t">{{ unitTypeLabels[t] }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Decimales</mat-label>
+        <input matInput type="number" formControlName="decimalPlaces" min="0" max="4" />
+        @if (form.controls.decimalPlaces.invalid) {
+          <mat-error>0-4</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Orden</mat-label>
+        <input matInput type="number" formControlName="order" min="0" />
+        @if (form.controls.order.invalid) {
+          <mat-error>≥ 0</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="outline">
+      <mat-label>Descripción (opcional)</mat-label>
+      <textarea matInput formControlName="description" rows="2"></textarea>
+    </mat-form-field>
+
+    <!-- Activo -->
+    <mat-checkbox formControlName="isActive">
+      Activa (disponible en dropdowns)
+    </mat-checkbox>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button type="button" (click)="cancel()">Cancelar</button>
+  <button
+    mat-flat-button
+    color="primary"
+    type="button"
+    (click)="submit()"
+    [disabled]="form.invalid || saving()"
+  >
+    @if (saving()) {
+      <mat-spinner diameter="18" class="inline-block mr-2"></mat-spinner>
+    }
+    {{ isEdit() ? 'Guardar cambios' : 'Crear unidad' }}
+  </button>
+</mat-dialog-actions>

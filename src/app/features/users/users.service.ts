@@ -36,7 +36,7 @@ export class UsersService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  changeRole(id: string, role: string): Observable<AdminUser> {
-    return this.http.patch<AdminUser>(`${this.baseUrl}/${id}/role`, { role });
+  changeRole(id: string, roleName: string): Observable<AdminUser> {
+    return this.http.patch<AdminUser>(`${this.baseUrl}/${id}/role`, { roleName });
   }
 }

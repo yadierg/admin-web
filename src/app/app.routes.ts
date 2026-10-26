@@ -71,7 +71,15 @@ export const routes: Routes = [
             (m) => m.NOTIFICATIONS_ROUTES
           ),
       },
- 
+      {
+        path: 'units-of-measure',
+        canActivate: [permissionGuard],
+        data: { permission: 'inventory.read' },
+        loadChildren: () =>
+          import('./features/units-of-measure/units.routes').then(
+            (m) => m.UNITS_ROUTES
+          ),
+      },
     ],
   },
   {
